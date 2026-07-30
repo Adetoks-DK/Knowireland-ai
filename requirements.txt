@@ -1,0 +1,58 @@
+annotated-doc==0.0.4
+annotated-types==0.7.0
+anyio==4.14.1
+bcrypt==4.0.1
+cffi==2.1.0
+click==8.4.2
+colorama==0.4.6
+contourpy @ file:///C:/miniconda3/conda-bld/contourpy_1763643943275/work
+cryptography==49.0.0
+cycler @ file:///C:/Users/task_176606794786808/croot/cycler_1766068049869/work
+dnspython==2.8.0
+ecdsa==0.19.2
+email-validator==2.3.0
+fastapi==0.139.0
+fonttools @ file:///C:/Users/task_178107561952622/croot/fonttools_1781075736132/work
+greenlet==3.5.3
+h11==0.16.0
+idna==3.18
+joblib @ file:///C:/Users/task_176786740206630/croot/joblib_1767868144069/work
+kiwisolver @ file:///C:/miniconda3/conda-bld/kiwisolver_1764159385651/work
+matplotlib==3.11.0
+mkl-service==2.7.2
+mkl_fft @ file:///C:/Users/task_177730051549119/croot/mkl_fft_1777300588604/work
+mkl_random @ file:///C:/Users/task_178236954984006/croot/mkl_random_1782369657583/work
+mysql-connector-python==9.7.0
+narwhals @ file:///C:/miniconda3/conda-bld/narwhals_1760003513175/work
+numpy @ file:///C:/Users/task_178236963057879/croot/numpy_and_numpy_base_1782369742994/work/dist/numpy-2.5.0-cp312-cp312-win_amd64.whl#sha256=5f85df7b41e1d79d16ec86c5421cf4c28efe7ac95ca82be3dc5f891ade7d2e7f
+packaging==26.0
+pandas @ file:///C:/Users/task_178007177038114/croot/pandas_1780071914394/work
+passlib==1.7.4
+pillow @ file:///C:/b/abs_b50vowcrzo/croot/pillow_1738010273782/work
+pyasn1==0.6.4
+pycparser==3.0
+pydantic==2.13.4
+pydantic_core==2.46.4
+PyMySQL==1.2.0
+pyparsing @ file:///C:/miniconda3/conda-bld/pyparsing_1763973902692/work
+PyQt6==6.11.0
+PyQt6_sip @ file:///C:/Users/task_177582782266605/croot/pyqt-split_1775828388460/work/pyqt_sip
+python-dateutil @ file:///C:/b/abs_3au_koqnbs/croot/python-dateutil_1716495777160/work
+python-dotenv==1.2.2
+python-jose==3.5.0
+python-multipart==0.0.32
+rsa==4.9.1
+scikit-learn @ file:///C:/Users/task_178153015921701/croot/scikit-learn_1781530284599/work
+scipy @ file:///C:/Users/task_178236962878106/croot/scipy_1782369744304/work/dist/scipy-1.18.0-cp312-cp312-win_amd64.whl#sha256=d13f800670380a821a05207746c1958c9246587158ebc2f6e414e7d108e117fb
+setuptools==82.0.1
+sip @ file:///C:/Users/task_177080667796782/croot/sip_1770807601673/work
+six @ file:///C:/b/abs_149wuyuo1o/croot/six_1744271521515/work
+SQLAlchemy==2.0.51
+starlette==1.3.1
+threadpoolctl @ file:///C:/miniconda3/conda-bld/threadpoolctl_1764361791480/work
+tornado @ file:///C:/Users/task_178231409048749/croot/tornado_1782314859353/work
+typing-inspection==0.4.2
+typing_extensions==4.16.0
+tzdata @ file:///home/task_177806041933677/croot/python-tzdata_1778060738968/work
+uvicorn==0.50.2
+wheel==0.47.0
