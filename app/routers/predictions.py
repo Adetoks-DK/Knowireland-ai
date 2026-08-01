@@ -1,19 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from ..database import get_db
-from ..models import Company, SustainabilityPrediction
-from ..schemas import SustainabilityInput
-
-from ..sustainability_scoring import calculate_sustainability_score
-from ..recommendation_engine import generate_recommendations
-
-from ..security import get_current_user
-from ..models import User
-
-from ..dependencies import get_current_user
-from ..models import User
-
+from app.database import get_db
+from app.models import Company, SustainabilityPrediction
+from app.schemas import SustainabilityInput
+from app.sustainability_scoring import calculate_sustainability_score
+from app.recommendation_engine import generate_recommendations
 
 router = APIRouter(
     prefix="/prediction",
@@ -25,37 +17,39 @@ router = APIRouter(
 def create_prediction(
     company_id: int,
     data: SustainabilityInput,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    db: Session = Depends(get_db)
 ):
+    """
+    Create a sustainability assessment for a company.
+    """
 
-    # STEP 1: Find the company
+    # Check that the company exists
+    company = (
+        db.query(Company)
+        .filter(Company.id == company_id)
+        .first()
+    )
 
-
-    company = db.query(Company).filter(
-        Company.id == company_id
-    ).first()
-
-    if company is None:
+    if not company:
         raise HTTPException(
             status_code=404,
-            detail="Company not found"
+            detail="Company not found."
         )
 
+    # Convert request to dictionary
+    input_data = data.model_dump()
 
-    # STEP 2: Calculate sustainability scores
+    # Calculate sustainability scores
+    scores = calculate_sustainability_score(input_data)
 
-    scores = calculate_sustainability_score(data)
+    prediction_score = scores.get("overall_score", 0)
 
-    prediction_score = scores["overall_score"]
-
+    # Generate recommendations
     recommendation_list = generate_recommendations(scores)
 
-    recommendation = " | ".join(recommendation_list)
+    recommendation_text = " | ".join(recommendation_list)
 
-
-    # STEP 3: Create prediction database record
-
+    # Create prediction record
     prediction = SustainabilityPrediction(
         company_id=company.id,
         energy_consumption=data.energy_consumption,
@@ -66,11 +60,10 @@ def create_prediction(
         transport_emissions=data.transport_emissions,
         carbon_emissions=data.carbon_emissions,
         sustainability_score=prediction_score,
-        recommendations=recommendation
+        recommendations=recommendation_text
     )
 
-    # STEP 4: Save prediction to MySQL
-
+    # Save prediction
     try:
         db.add(prediction)
         db.commit()
@@ -84,10 +77,9 @@ def create_prediction(
             detail=f"Database error: {str(e)}"
         )
 
-    # STEP 5: Return result
-
+    # Return response
     return {
-        "message": "Sustainability assessment completed successfully",
+        "message": "Sustainability assessment completed successfully.",
 
         "prediction_id": prediction.id,
 
@@ -96,27 +88,17 @@ def create_prediction(
             "name": company.company_name
         },
 
-        "overall_score": prediction_score,
+        "overall_score": round(prediction_score, 2),
 
         "category_scores": {
-            "carbon": scores["carbon_score"],
-            "renewable_energy": scores["renewable_score"],
-            "recycling": scores["recycling_score"],
-            "waste": scores["waste_score"],
-            "energy": scores["energy_score"],
-            "water": scores["water_score"],
-            "transport": scores["transport_score"]
+            "carbon": scores.get("carbon_score"),
+            "energy": scores.get("energy_score"),
+            "water": scores.get("water_score"),
+            "waste": scores.get("waste_score"),
+            "recycling": scores.get("recycling_score"),
+            "renewable_energy": scores.get("renewable_score"),
+            "transport": scores.get("transport_score")
         },
 
         "recommendations": recommendation_list
     }
-
-    return {
-    "message": "Prediction completed and saved successfully",
-    "prediction_id": prediction.id,
-    "company_id": company.id,
-    "company_name": company.company_name,
-    "sustainability_score": prediction.sustainability_score,
-    "recommendations": prediction.recommendations,
-    "generated_by": current_user.email
-}
